@@ -1,5 +1,4 @@
-import React from "react";
-import MapContainerComponent from "./componentes/mapas/MapContainerComponent";
+import MapContainerComponent from './componentes/mapas/MapContainerComponent';
 import "./App.css";
 
 function App() {

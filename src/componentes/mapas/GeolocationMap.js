@@ -1,33 +1,75 @@
 import { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import io from "socket.io-client";
 
-const useGeolocation = () => {
-  const [position, setPosition] = useState(null);
+import { io } from "socket.io-client";
+const socket = io("http://localhost:3000"); // Conectamos con el backend
 
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      alert("Geolocalización no soportada");
-      return;
-    }
 
-    const watchId = navigator.geolocation.watchPosition(
-      (pos) => {
-        setPosition([pos.coords.latitude, pos.coords.longitude]);
+const getLocation = (setPosition) => {
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        console.log("📍 Ubicación enviada al backend:", latitude, longitude);
+        setPosition([latitude, longitude]);
+
+        // Enviar la ubicación al backend
+        socket.emit("locationUpdate", {
+          id: "colectivo1", // ID del colectivo simulado
+          lat: latitude,
+          lon: longitude,
+        });
       },
-      (err) => {
-        console.error("Error obteniendo ubicación:", err);
-        alert("No se pudo obtener la ubicación");
-      },
-      {
-        enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
-      }
+      (error) => console.error("❌ Error obteniendo la ubicación:", error),
+      { enableHighAccuracy: true, maximumAge: 0 }
     );
-
-    return () => navigator.geolocation.clearWatch(watchId);
-  }, []);
-
-  return position;
+  } else {
+    console.error("❌ Geolocalización no soportada en este navegador.");
+  }
 };
 
-export default useGeolocation;
+function GeolocationMap() {
+  const [position, setPosition] = useState(null);
+  const [buses, setBuses] = useState([]);
+
+  useEffect(() => {
+    getLocation(setPosition);
+
+    // Escuchar actualizaciones de ubicación desde el backend
+    socket.on("busUpdate", (data) => {
+      console.log("📍 Ubicaciones recibidas del backend:", data);
+      setBuses(data);
+    });
+
+    return () => socket.off("busUpdate");
+  }, []);
+
+  return (
+    <div>
+      <h2>Ubicación en Tiempo Real</h2>
+      {position ? (
+        <MapContainer center={position} zoom={15} style={{ height: "400px", width: "100%" }}>
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+          {/* Marker de la PC (simula el colectivo) */}
+          <Marker position={position}>
+            <Popup>📍 Mi PC (colectivo)</Popup>
+          </Marker>
+
+          {/* Markers de los colectivos en el backend */}
+          {buses.map((bus) => (
+            <Marker key={bus.id} position={[bus.lat, bus.lon]}>
+              <Popup>🚌 Colectivo {bus.id}</Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+      ) : (
+        <p>📍 Obteniendo ubicación...</p>
+      )}
+    </div>
+  );
+}
+
+export default GeolocationMap;
