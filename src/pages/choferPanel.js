@@ -5,6 +5,7 @@ import AdminHeader from "../componentes/admin/AdminHeader";
 import { useThemeMode } from "../context/ThemeContext";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/material";
+import { useCallback } from "react";
 
 const safeFetch = async (url, options = {}) => {
   const res = await fetch(url, options);
@@ -36,7 +37,7 @@ const ChoferPanel = () => {
   // =========================
   // CARGAR CHOFER Y SESIONES
   // =========================
-  const loadSessions = async () => {
+  const loadSessions = useCallback(async () => {
     try {
       // Sesión activa
       const resActive = await fetch(
@@ -60,7 +61,7 @@ const ChoferPanel = () => {
     } catch (err) {
       console.error("❌ Error cargando sesiones", err);
     }
-  };
+  },[token]);
 
   useEffect(() => {
   console.log("🧨 startTime cambió:", startTime);
@@ -69,7 +70,7 @@ const ChoferPanel = () => {
 
   useEffect(() => {
     if (token) loadSessions();
-  }, [token]);
+  }, [token,loadSessions]);
 
   useEffect(() => {
     const fetchChofer = async () => {

@@ -3,13 +3,12 @@ import { useEffect, useState } from "react";
 export const useUserToStopRoute = (userPosition, nearestStop) => {
 
   const [routeData, setRouteData] = useState(null);
-  const [setRouteInfo] = useState(null);
 
   useEffect(() => {
 
-    // 🔥 limpiar datos anteriores
+    // limpiar datos anteriores
     setRouteData(null);
-    setRouteInfo(null);
+  
 
     if (!userPosition || !nearestStop) return;
 
@@ -49,7 +48,6 @@ export const useUserToStopRoute = (userPosition, nearestStop) => {
           return;
         }
 
-        // 🔥 reemplazar TODO el estado
         setRouteData({
           route: data.coordinates.map((p) => [p.lat, p.lon]),
           streetName: data.streetName,
@@ -57,7 +55,7 @@ export const useUserToStopRoute = (userPosition, nearestStop) => {
           duration: data.duration,
         });
 
-        setRouteInfo(data);
+  
 
       } catch (err) {
 

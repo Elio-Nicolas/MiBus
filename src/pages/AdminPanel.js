@@ -137,7 +137,7 @@ useEffect(() => {
       assignedLine: null
     });
   }
-}, []);
+}, [user]);
 
   // ================= FETCH =================
   useEffect(() => {

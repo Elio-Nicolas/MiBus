@@ -129,7 +129,7 @@ useEffect(() => {
   //  CERRAR GPS
   uiActions.closeGpsDrawer();
 
-}, [uiState.selectedLinea]);
+}, [uiState.selectedLinea, uiActions]);
 
 useEffect(() => {
   uiActions.closeGpsDrawer();
@@ -139,7 +139,7 @@ useEffect(() => {
   }, 0);
 
   return () => clearTimeout(t);
-}, [uiState.selectedLinea]);
+}, [uiState.selectedLinea, uiActions]);
 
 console.log("selectedStop", selectedStop);
 console.log("nearestStop", nearestStop);

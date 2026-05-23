@@ -10,17 +10,19 @@ const ParadasLayer = ({
   onStopClick,
 }) => {
 
-   const features = paradasData?.features ?? [];
+
   const filteredData = useMemo(() => {
-    if (!paradasData) return null;
 
-    if (!selectedLinea) return paradasData;
+  if (!paradasData) return null;
 
-    return {
-      ...paradasData,
-      features
-    };
-  }, [paradasData, selectedLinea]);
+  if (!selectedLinea) return paradasData;
+
+  return {
+    ...paradasData,
+    features: paradasData.features ?? [],
+  };
+
+}, [paradasData, selectedLinea]);
 
   if (!visible || !filteredData) return null;
 
