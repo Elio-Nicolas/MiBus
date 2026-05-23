@@ -1,0 +1,44 @@
+.portada-container {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .portada-titulo {
+    color: #2a9d8f;
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+  
+  .portada-imagen {
+    width: 60%;
+    max-width: 250px;
+    margin: 2rem auto;
+  }
+  
+  .portada-botones .btn {
+    display: block;
+    width: 30%;
+    margin: 0.5rem auto;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .btn-acceder {
+    background-color: #54b3d6;
+    color: white;
+    transition: 0.2s;
+  }
+  
+  .btn-login {
+    background-color: #d3d3d3;
+  }
+  

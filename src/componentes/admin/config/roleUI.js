@@ -1,0 +1,42 @@
+export const ROLE_UI = {
+  GUEST: {
+    lineas: false,
+    clima: false,
+    engranaje: false,
+    cerrarSesion: false,
+    chofer: false,
+    inspector: false,
+  },
+  PASAJERO: {
+    lineas: true,
+    clima: true,
+    engranaje: false,
+    cerrarSesion: false,
+    chofer: false,
+    inspector: false,
+  },
+  INSPECTOR: {
+    lineas: true,
+    clima: true,
+    engranaje: false,
+    cerrarSesion: true,
+    chofer: false,
+    inspector: false,
+  },
+  CHOFER: {
+    lineas: false,
+    clima: false,
+    engranaje: false,
+    cerrarSesion: true,
+    chofer: false,
+    inspector: false,
+  },
+  ADMIN: {
+    lineas: true,
+    clima: true,
+    engranaje: true,
+    cerrarSesion: true,
+    chofer: true,
+    inspector: true,
+  },
+};

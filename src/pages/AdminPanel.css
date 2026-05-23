@@ -1,0 +1,10 @@
+.resize-handle {
+  width: 6px;
+  background: #ccc;
+  cursor: row-resize;
+  transition: background 0.2s;
+}
+
+.resize-handle:hover {
+  background: #999;
+}
