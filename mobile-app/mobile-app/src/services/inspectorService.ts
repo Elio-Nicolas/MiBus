@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "http://192.168.100.9:4001/api/inspector";
+const API_URL = "https://mibus-backend-1.onrender.com/api/inspector";
 
 const getToken = async () => {
   return await AsyncStorage.getItem("token");

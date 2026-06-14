@@ -5,7 +5,7 @@ const { routeUserToStop } = require("../services/routeUserToStop");
 
 router.post("/route-user-stop", async (req, res) => {
   try {
-    const { user, stop } = req.body;
+    const { user, stop, travelMode } = req.body;
 
     if (!user || !stop) {
       return res.status(400).json({ error: "Faltan datos" });

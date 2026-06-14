@@ -5,16 +5,12 @@ import paradas from "@/data/paradas.json";
 import * as Location from "expo-location";
 import { useEffect, useState, useRef } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-
-type Stop = {
-  id: string;
-  latitude: number;
-  longitude: number;
-  line: string;
-};
+import { darkMapStyle } from "../../src/styles/mapDarkStyle";
+import { useColorScheme } from "react-native";
 
 export default function MapScreen() {
 
+  const scheme = useColorScheme();
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedLine, setSelectedLine] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<Location.LocationObjectCoords | null>(null);
@@ -30,6 +26,8 @@ export default function MapScreen() {
   streetName?: string;
 } | null>(null);
   const [selectedStop, setSelectedStop] = useState<any>(null);
+  const [travelMode, setTravelMode] =
+  useState<"WALKING" | "DRIVING">("WALKING");
   const insets = useSafeAreaInsets();
   const [closestStop, setClosestStop] = useState<{
     stop: any;
@@ -45,17 +43,6 @@ export default function MapScreen() {
     longitudeDelta: 0.05,
   });
 
-  const getMarkerSize = () => {
-    if (region.latitudeDelta > 0.1) return 6;
-    if (region.latitudeDelta > 0.05) return 10;
-    if (region.latitudeDelta > 0.02) return 14;
-    return 18;
-  };
-
-  const [routeInfo, setRouteInfo] = useState<{
-  duration: number;
-  distance: number;
-} | null>(null);
 
   // ==================== UBICACION USUARIO ======================= //
  useEffect(() => {
@@ -196,7 +183,7 @@ const fetchRouteToStop = async (stop: any) => {
      setRouteData(null);
 
     const response = await fetch(
-      "http://192.168.100.4:4001/api/map/route-user-stop",
+      "https://mibus-backend-1.onrender.com/api/map/route-user-stop",
       {
         method: "POST",
         headers: {
@@ -211,6 +198,7 @@ const fetchRouteToStop = async (stop: any) => {
             lat: stop.geometry.coordinates[1],
             lon: stop.geometry.coordinates[0],
           },
+          travelMode,
         }),
       }
     );
@@ -250,9 +238,14 @@ setRouteData({
       <MapView
         ref={mapRef}
         style={styles.map}
+        customMapStyle={
+          scheme === "dark" ? darkMapStyle
+          : []
+        }
         initialRegion={region}
         onRegionChangeComplete={(reg) => setRegion(reg)}
         showsUserLocation={true}
+        
       >
         {paradas.features
           .filter((feature: any) => {
@@ -355,6 +348,63 @@ setRouteData({
  Calle actual:{" "}
  {routeData?.streetName || "Calculando..."}
 </Text>
+<View
+  style={{
+    flexDirection: "row",
+    marginTop: 14,
+    gap: 10,
+  }}
+>
+
+  <TouchableOpacity
+    style={{
+      backgroundColor:
+        travelMode === "WALKING"
+          ? "#22c55e"
+          : "#d1d5db",
+
+      paddingVertical: 10,
+      paddingHorizontal: 16,
+      borderRadius: 12,
+    }}
+    onPress={() => {
+      setTravelMode("WALKING");
+
+      if (selectedStop) {
+        fetchRouteToStop(selectedStop);
+      }
+    }}
+  >
+    <Text style={{ color: "white", fontWeight: "bold" }}>
+      🚶 Caminando
+    </Text>
+  </TouchableOpacity>
+
+  <TouchableOpacity
+    style={{
+      backgroundColor:
+        travelMode === "DRIVING"
+          ? "#2563eb"
+          : "#d1d5db",
+
+      paddingVertical: 10,
+      paddingHorizontal: 16,
+      borderRadius: 12,
+    }}
+    onPress={() => {
+      setTravelMode("DRIVING");
+
+      if (selectedStop) {
+        fetchRouteToStop(selectedStop);
+      }
+    }}
+  >
+    <Text style={{ color: "white", fontWeight: "bold" }}>
+      🚗 Auto
+    </Text>
+  </TouchableOpacity>
+
+</View>
 
     <TouchableOpacity
       style={styles.closeDrawer}

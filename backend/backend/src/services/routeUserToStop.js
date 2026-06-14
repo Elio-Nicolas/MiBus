@@ -7,9 +7,14 @@ async function routeUserToStop(user, stop) {
 
   const coords = `${user.lon},${user.lat};${stop.lon},${stop.lat}`;
 
+  const profile =
+  travelMode === "WALKING"
+    ? "foot"
+    : "driving";
+
   const url =
-    `http://router.project-osrm.org/route/v1/driving/${coords}` +
-    `?overview=full&geometries=geojson&steps=false&continue_straight=true`;
+  `http://router.project-osrm.org/route/v1/${profile}/${coords}` +
+  `?overview=full&geometries=geojson&steps=false&continue_straight=true`;
 
  // console.log("URL OSRM:", url);
 

@@ -13,7 +13,9 @@
 require("dotenv").config();
 require("dotenv").config({ path: __dirname + "../../.env" });
 
+
 const express = require("express");
+const helmet = require("helmet");
 const http = require("http");
 const socketIo = require("socket.io");
 const mongoose = require("mongoose");
@@ -21,7 +23,7 @@ const cors = require("cors");
 const path = require("path");
 
 const app = express();
-
+app.use(helmet());
 /* ======================= MIDDLEWARE ======================= */
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));

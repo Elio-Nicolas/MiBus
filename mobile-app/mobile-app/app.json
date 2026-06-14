@@ -3,7 +3,14 @@
     "name": "mobile-app",
     "slug": "mobile-app",
     "android": {
-      "usesCleartextTraffic": true},
+      "usesCleartextTraffic": true,
+      "package": "com.eliob.mobileapp",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBswBl2jjtGIYARf7NBZQlJr1FGUj7vxmM"
+        }
+      }
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -12,16 +19,15 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-     "adaptiveIcon": {
+      "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false  
+      "predictiveBackGestureEnabled": false
     },
-   
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
@@ -44,6 +50,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "dd9fecdf-b168-4240-91d0-4b64baa7d3c5"
+      }
     }
   }
 }
