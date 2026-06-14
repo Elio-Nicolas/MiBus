@@ -4,12 +4,7 @@
     "slug": "mobile-app",
     "android": {
       "usesCleartextTraffic": true,
-      "package": "com.eliob.mobileapp",
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyBswBl2jjtGIYARf7NBZQlJr1FGUj7vxmM"
-        }
-      }
+      "package": "com.eliob.mobileapp"
     },
     "version": "1.0.0",
     "orientation": "portrait",
